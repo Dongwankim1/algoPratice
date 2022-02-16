@@ -2,7 +2,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 
 
@@ -11,8 +14,9 @@ import java.util.List;
 public class Main {
     
     static String[] data = null;
-    static int[] lottoNum = new int[6];
-    static int[] decisionSpace = null;
+
+    static boolean[] decisionSpace = null;
+    static int[] lottoNum = null;
     public static void main(String[] args) throws Exception {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         
@@ -23,7 +27,8 @@ public class Main {
             if(data[0].equals("0")){
                 break;
             }
-            decisionSpace = new int[Integer.parseInt(data[0])+1];
+            lottoNum = new int[Integer.parseInt(data[0])+1];
+            decisionSpace = new boolean[Integer.parseInt(data[0])+1];
 
             backtracking(0);
 
@@ -33,20 +38,22 @@ public class Main {
 
     public static void backtracking(int index){
         if(index==6){
-            for(int i=0;i<lottoNum.length;i++){
-                System.out.print(lottoNum[i]+" ");
+            for(int i=0;i<6;i++){
+                if(decisionSpace[i]){
+                 System.out.print(lottoNum[i] +" ");
+                }
             }
             System.out.println();
             return;
         }
-
+   
         for(int i=1;i<data.length;i++){
-            if(decisionSpace[i]!=1){
-                lottoNum[index] = Integer.parseInt(data[i]);
-                decisionSpace[i] = 1;
+                      
+                decisionSpace[i] = true;
+                lottoNum[index]= Integer.parseInt(data[i]);
                 backtracking(index+1);
-                decisionSpace[i] = 0;
-            }
+                decisionSpace[i] = false;
+            
         }
     }
 
